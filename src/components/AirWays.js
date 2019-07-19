@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Layout from './Layout';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { NavLink } from "react-router-dom";
 
 const AirWays = () => {
-
+    const [isTrue, setTrue] = useState(false)
     return(
         <Query query={gql`{categories{Mode_of_transportaion,name,description,picture{url}}}`}>
             {({loading, error, data}) => {
@@ -17,9 +18,15 @@ const AirWays = () => {
                     {data.categories.map((val, i) => {
                     // console.log('state val',val);
                         if(val.Mode_of_transportaion === "Air_ways"){
-                        return <tbody style={{textAlign:'center'}} key={i}>                        
+                        return <tbody style={{textAlign:'center'}} key={i}>  
+                        <tr><td><NavLink onClick={
+                                () => {
+                                    setTrue(true);
+                                }
+                            }>Name: {val.name}</NavLink></td></tr>                      
+                       {isTrue === true && <div>
                         <tr><td>Mode of transportation : {val.Mode_of_transportaion}</td></tr>
-                        <tr><td>Name: {val.name}</td></tr>
+                        {/* <tr><td>Name: {val.name}</td></tr> */}
                         <tr><td>Description : {val.Mode_of_transportaion}</td></tr>
                         <tr>
                             <td>
@@ -30,6 +37,7 @@ const AirWays = () => {
                                     />
                             </td>
                         </tr>
+                       </div>}
                         <hr/>
                         </tbody>
                         }
